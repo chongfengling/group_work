@@ -2,6 +2,7 @@ from pathlib import Path
 import numpy as np
 import csv
 import json
+import time
 
 def read_file(path: Path) -> (np.array, str):
     """
@@ -129,13 +130,18 @@ def calculate_average(array: "np.array") -> np.array:
     --------
     >>> from utilities import calculate_average
     >>> calculate_average(np.array([[1, 2], [3, 4]]))
-    array([2., 3.])
-    
+    array([[2., 3.]])
+
     """
     res = np.mean(array, axis=0)
     return res.reshape((1, res.shape[0]))
 
-def save_file(array: "np.array", title: str=None) -> None:
+def get_date_and_time():
+
+    localtime = time.asctime(time.localtime(time.time()))
+    return localtime
+
+def save_file(array: "np.array", title=None) -> None:
     """
     Saves the file to a csv file.
 
@@ -143,14 +149,17 @@ def save_file(array: "np.array", title: str=None) -> None:
     ----------
     array : "np.array"
         DESCRIPTION.
-
+    title : str
+        title in the input data
+        
     Returns
     -------
     None
 
     """
+    localtime = get_date_and_time()
 
     if title:
-        np.savetxt("output.csv",array, delimiter =",", header=title, fmt ='%s',comments='')
+        np.savetxt("output.csv",array, delimiter =",", header=','.join(title), footer=localtime, fmt ='%.2f',comments='')
     else:
-        np.savetxt("output.csv",array, delimiter =",", fmt ='%s',comments='')
+        np.savetxt("output.csv",array, delimiter =",", footer=localtime, fmt ='%s',comments='')
