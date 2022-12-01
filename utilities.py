@@ -22,14 +22,14 @@ def calculate_average(array: "np.array") -> "np.array":
 
     Parameters
     ----------
-    array : "np.array"
+    array : (m,n) "np.array"
 
     Returns
     -------
-    np.array
+    (1,n) np.array
 
     """
-    pass
+    return np.mean(array, axis=0)
 
 def save_file(array: "np.array") -> None:
     """
