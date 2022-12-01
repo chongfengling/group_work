@@ -44,7 +44,7 @@ def read_file(path: Path) -> np.array:
         csv_list = [row for row in inputreader]
         return np.array(csv_list, dtype=int)
 
-def calculate_average(array: "np.array") -> "np.array":
+def calculate_average(array: "np.array") -> np.array:
     """
     Calculates the average over the columns.
 
@@ -56,10 +56,17 @@ def calculate_average(array: "np.array") -> "np.array":
     -------
     (1,n) np.array
 
-    """
-    return np.mean(array, axis=0)
+    Examples
+    --------
 
-def save_file(array: "np.array") -> None:
+    >>> calculate_average(np.array([[1, 2], [3, 4]]))
+    array([2., 3.])
+    
+    """
+    res = np.mean(array, axis=0)
+    return res.reshape((1, res.shape[0]))
+
+def save_file(array: "np.array", title: str=None) -> None:
     """
     Saves the file to a csv file.
 
@@ -73,7 +80,8 @@ def save_file(array: "np.array") -> None:
     None
 
     """
-    pass
 
-if __name__ == "__main__":
-    print(read_file(Path("input.csv")))
+    if title:
+        np.savetxt("output.csv",array, delimiter =",", header=title, fmt ='%s',comments='')
+    else:
+        np.savetxt("output.csv",array, delimiter =",", fmt ='%s',comments='')
