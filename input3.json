@@ -1,0 +1,14 @@
+{
+    "record1": {
+        "temperature": 2,
+        "mass": 10,
+        "pressure": 200,
+        "volume": 2
+    },
+    "record2": {
+        "temperature": 0,
+        "mass": 20,
+        "pressure": -200,
+        "volume": 5
+    }
+}
