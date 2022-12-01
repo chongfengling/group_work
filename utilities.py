@@ -60,8 +60,8 @@ def calculate_average(array: "np.array") -> np.array:
     --------
 
     >>> calculate_average(np.array([[1, 2], [3, 4]]))
-    array([2., 3.])
-    
+    array([[2., 3.]])
+
     """
     res = np.mean(array, axis=0)
     return res.reshape((1, res.shape[0]))
@@ -74,7 +74,9 @@ def save_file(array: "np.array", title: str=None) -> None:
     ----------
     array : "np.array"
         DESCRIPTION.
-
+    title : str
+        title in the input data
+        
     Returns
     -------
     None
