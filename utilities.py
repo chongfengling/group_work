@@ -1,7 +1,7 @@
 from pathlib import Path
 import numpy as np
 import csv
-
+import time
 def read_file(path: Path) -> (np.array, str):
     """
     Reads a CSV file and outputs a numpy array with the data in the CSV file.
@@ -77,7 +77,12 @@ def calculate_average(array: "np.array") -> np.array:
     res = np.mean(array, axis=0)
     return res.reshape((1, res.shape[0]))
 
-def save_file(array: "np.array", title: str=None) -> None:
+def get_date_and_time():
+
+    localtime = time.asctime(time.localtime(time.time()))
+    return localtime
+
+def save_file(array: "np.array", title=None) -> None:
     """
     Saves the file to a csv file.
 
@@ -93,8 +98,9 @@ def save_file(array: "np.array", title: str=None) -> None:
     None
 
     """
+    localtime = get_date_and_time()
 
     if title:
-        np.savetxt("output.csv",array, delimiter =",", header=title, fmt ='%s',comments='')
+        np.savetxt("output.csv",array, delimiter =",", header=','.join(title), footer=localtime, fmt ='%.2f',comments='')
     else:
-        np.savetxt("output.csv",array, delimiter =",", fmt ='%s',comments='')
+        np.savetxt("output.csv",array, delimiter =",", footer=localtime, fmt ='%s',comments='')
