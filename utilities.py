@@ -2,25 +2,33 @@ from pathlib import Path
 import numpy as np
 import csv
 
-def read_file(path: Path) -> np.array:
+def read_file(path: Path) -> (np.array, str):
     """
     Reads a CSV file and outputs a numpy array with the data in the CSV file.
-    Detects whether there is a heading and skips over it if this is the case.
+    Detects whether there is a heading and skips over it if this is the case,
+    and returns the heading in a string.
     
     Inputs
     ------
-    Path: Path object that links to the csv file.
+    path: Path
+        Path object that links to the csv file.
 
     Returns
     -------
-    np.array: Data inside the CSV file.
+    array: np.array
+        Data inside the CSV file.
+    header: str
+        String containing the header file, if there is one. Otherwise this
+        is None.
     
     Examples
     --------
     (bash)
     echo -e "2, 10, 200, 2\n0, 20, -200, 5" >> input.csv
    
-    >>> print(read_file(Path("input.csv")))
+    >>> from pathlib import Path
+    >>> from utilities import read_file
+    >>> print(read_file(Path("input.csv"))[0])
     [[   2   10  200    2]
      [   0   20 -200    5]]
 
@@ -39,10 +47,13 @@ def read_file(path: Path) -> np.array:
         # Now read the file with csv.reader
         inputreader = csv.reader(csvfile, dialect)
         if has_header:
-            # Skip the header if we have one.
-            next(inputreader)
+            # If we have a header, get it as a string
+            header = next(inputreader)
+        else:
+            header = None
+    
         csv_list = [row for row in inputreader]
-        return np.array(csv_list, dtype=int)
+        return np.array(csv_list, dtype=int), header
 
 def calculate_average(array: "np.array") -> np.array:
     """
@@ -58,7 +69,7 @@ def calculate_average(array: "np.array") -> np.array:
 
     Examples
     --------
-
+    >>> from utilities import calculate_average
     >>> calculate_average(np.array([[1, 2], [3, 4]]))
     array([2., 3.])
     
